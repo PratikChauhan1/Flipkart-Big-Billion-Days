@@ -1,29 +1,21 @@
--- =========================================================================
--- SUPABASE RLS & PERMISSIONS FIX (COPY & RUN THIS IN SUPABASE SQL EDITOR)
--- =========================================================================
 
--- Step 1: Disable Row Level Security so your backend can write without block
 ALTER TABLE IF EXISTS public.users DISABLE ROW LEVEL SECURITY;
 ALTER TABLE IF EXISTS public.products DISABLE ROW LEVEL SECURITY;
 ALTER TABLE IF EXISTS public.orders DISABLE ROW LEVEL SECURITY;
 
--- Step 2: Drop old restrictive policies if any
 DROP POLICY IF EXISTS "Allow all for users" ON public.users;
 DROP POLICY IF EXISTS "Allow all for products" ON public.products;
 DROP POLICY IF EXISTS "Allow all for orders" ON public.orders;
 
--- Step 3: Create full permissive policies
 CREATE POLICY "Allow all for users" ON public.users FOR ALL USING (true) WITH CHECK (true);
 CREATE POLICY "Allow all for products" ON public.products FOR ALL USING (true) WITH CHECK (true);
 CREATE POLICY "Allow all for orders" ON public.orders FOR ALL USING (true) WITH CHECK (true);
 
--- Step 4: Grant full access to anon, authenticated, and service_role
 GRANT ALL ON TABLE public.users TO anon, authenticated, service_role;
 GRANT ALL ON TABLE public.products TO anon, authenticated, service_role;
 GRANT ALL ON TABLE public.orders TO anon, authenticated, service_role;
 GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO anon, authenticated, service_role;
 
--- Step 5: Seed Sample Big Billion Day Products into Supabase
 INSERT INTO public.products (title, description, category, brand, price, original_price, discount_percent, stock, image_url, rating, reviews_count, is_bestseller, is_big_billion_deal)
 VALUES
 (
