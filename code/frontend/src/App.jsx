@@ -21,6 +21,7 @@ import {
   Award 
 } from 'lucide-react';
 import { API_BASE } from './config';
+import { Analytics } from '@vercel/analytics/react';
 
 export default function App() {
   const { user, isAdmin } = useAuth();
@@ -242,6 +243,8 @@ export default function App() {
         isOpen={showOrdersModal}
         onClose={() => setShowOrdersModal(false)}
       />
+
+      <Analytics />
     </div>
   );
 }
